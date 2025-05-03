@@ -33,5 +33,5 @@ resource "azurerm_subnet" "eventhub" {
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.0.2.0/24"]
 
-  service_endpoints    = ["Microsoft.EventHub"]
+  service_endpoints = ["Microsoft.EventHub"]
 }

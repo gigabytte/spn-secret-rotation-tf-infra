@@ -5,9 +5,9 @@ resource "azurerm_monitor_action_group" "secret_alerts" {
 
   event_hub_receiver {
     name                    = "secret-expiration-receiver"
-    event_hub_name         = azurerm_eventhub.log_query_alerts.name
-    event_hub_namespace    = azurerm_eventhub_namespace.main.name
-    subscription_id        = var.subscription_id
+    event_hub_name          = azurerm_eventhub.log_query_alerts.name
+    event_hub_namespace     = azurerm_eventhub_namespace.main.name
+    subscription_id         = var.subscription_id
     use_common_alert_schema = true
   }
 
@@ -22,13 +22,13 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "secret_expiration" {
   name                = "corp-dev-001-secret-lifecycle-exp-alert"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  
+
   evaluation_frequency = "PT1H"
-  window_duration     = "PT1H"
-  scopes              = [azurerm_log_analytics_workspace.main.id]
-  severity            = 1
-  description         = "Alert every hour if the query returns results"
-  enabled             = true
+  window_duration      = "PT1H"
+  scopes               = [azurerm_log_analytics_workspace.main.id]
+  severity             = 1
+  description          = "Alert every hour if the query returns results"
+  enabled              = true
 
   criteria {
     query                   = <<-QUERY
@@ -46,8 +46,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "secret_expiration" {
           SecretVersionId
     QUERY
     time_aggregation_method = "Count"
-    operator               = "GreaterThan"
-    threshold              = 0
+    operator                = "GreaterThan"
+    threshold               = 0
   }
 
   auto_mitigation_enabled = true

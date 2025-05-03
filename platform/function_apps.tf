@@ -82,30 +82,30 @@ resource "azurerm_linux_function_app" "webhooks" {
   }
 
   app_settings = {
-    "FUNCTIONS_WORKER_RUNTIME"                    = "custom"
-    "WEBSITE_RUN_FROM_PACKAGE"                    = "1"
-    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"    = azuread_application_password.webhook_auth.value
+    "FUNCTIONS_WORKER_RUNTIME"                 = "custom"
+    "WEBSITE_RUN_FROM_PACKAGE"                 = "1"
+    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET" = azuread_application_password.webhook_auth.value
   }
 
   auth_settings_v2 {
     auth_enabled = true
-    
+
     active_directory_v2 {
       client_id                  = azuread_application.webhook_auth.client_id
       tenant_auth_endpoint       = "https://login.microsoftonline.com/${data.azurerm_client_config.current.tenant_id}/v2.0"
       client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
-      
+
       allowed_applications = [
         azuread_application.webhook_auth.client_id
       ]
-    
+
     }
 
     login {}
 
     require_authentication = true
     unauthenticated_action = "Return401"
-    default_provider      = "AzureActiveDirectory"
+    default_provider       = "AzureActiveDirectory"
   }
 
   tags = {
