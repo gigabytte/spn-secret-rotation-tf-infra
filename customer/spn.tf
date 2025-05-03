@@ -11,4 +11,11 @@ resource "azuread_application_password" "spn" {
   application_id = azuread_application.spn.object_id
   end_date       = timeadd(timestamp(), "168h") # 7 days from now
   display_name   = "secret"
+  // We only want to use TF to define the SPN secret NOT rotate it
+  lifecycle {
+    ignore_changes = [
+      end_date,
+      value
+    ]
+  }
 }
