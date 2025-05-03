@@ -6,7 +6,7 @@ resource "azurerm_key_vault_secret" "spn" {
   tags = {
     secret_type          = "spn"
     secret_object_id     = azuread_service_principal.spn.object_id
-    secret_owner_mailbox = "team1@cantire.com"
+    secret_owner_mailbox = "team1@outlook.com"
   }
 
   depends_on = [azurerm_key_vault_access_policy.terraform]
